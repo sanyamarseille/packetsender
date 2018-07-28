@@ -15,9 +15,9 @@ from scapy.all import *
 
 #### share setting ####
 start = time.time()
-target_server = "192.168.1.208"
-target_port = 514
-start_path = "./logger"
+target_server = ""
+target_port = 
+start_path = ""
 i = 0
 ### gzip or plain
 filemode = "plain"
@@ -26,8 +26,8 @@ filemode = "plain"
 mode = "scapy"
 
 ## scapy mode setting
-source_server = "192.168.1.209"
-source_port = 12343
+source_server = ""
+source_port = 
 
 ## socket mode setting
 # tcp or udp
