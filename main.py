@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 ################################
-# import modules
+# Import modules
 ################################
 import socket
 import time
@@ -44,16 +43,16 @@ def action(file_path):
     
     # socket mode
     if mode == "socket":
-	if proto == "udp":
-    		client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    	if proto == "tcp":
-    		client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        if proto == "udp":
+            client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        if proto == "tcp":
+            client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     # open and read file 
     if filemode == "gzip":
-    	f = gzip.open(file_path,"rb")
+        f = gzip.open(file_path,"rb")
     elif filemode == "plain":
-	f = open(file_path,"r")
+        f = open(file_path,"r")
 
     payload = f.readline()
 
@@ -63,11 +62,11 @@ def action(file_path):
 		if proto == "udp":
 			client.sendto(payload,(target_server,target_port))
 		if proto == "tcp" and flag:
-                        client.send(payload)
-                elif proto == "tcp" and flag == False:
-        		client.connect((target_server,target_port))
-        		client.send(payload)
-                        flag = True
+                client.send(payload)
+        elif proto == "tcp" and flag == False:
+            client.connect((target_server,target_port))
+            client.send(payload)
+                flag = True
 	
 	if mode == "scapy":
 		packet = IP(src=source_server, dst=target_server)/UDP(sport=source_port, dport=target_port)/payload
@@ -75,7 +74,6 @@ def action(file_path):
         
 	payload = f.readline()
 	i = i + 1
-
 
     # file close
     f.close()
@@ -99,4 +97,5 @@ def recursive(path):
 recursive(start_path)
 stop = time.time()
 print "処理時間：" + str(format(stop-start,'.3f')) + "秒"
+i = i - 1
 print "処理行数：" + str(i)
