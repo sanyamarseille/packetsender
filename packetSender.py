@@ -56,10 +56,15 @@ def SendPacket(config, LogFile, LogLineCounter):
 
     print('Send logs...')
     try:
+        packet = IP(
+            src = config['Source']['IPAddress'],
+            dst = config['Destination']['IPAddress'])\
+            /UDP(
+            sport = config['Source']['Port'],
+            dport = config['Destination']['Port'])
         with open(LogFile, 'r') as f:
             for payload in f:
-                packet = IP(src = config['Source']['IPAddress'],dst = config['Destination']['IPAddress'])/UDP(sport = config['Source']['Port'],dport = config['Destination']['Port'])/payload
-                send(packet, verbose=False)
+                send(packet/payload, verbose=False)
                 LogLineCounter += 1
 
     except Exception as e:
