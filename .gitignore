@@ -1,0 +1,8 @@
+# Mac OSx
+.DS_Store
+
+# venv
+venv*
+
+# env files
+setting.yaml
