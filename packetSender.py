@@ -56,6 +56,7 @@ def SendPacket(config, LogFile, LogLineCounter):
 
     print('Send logs...')
     try:
+        s = conf.L3socket()
         packet = IP(
             src = config['Source']['IPAddress'],
             dst = config['Destination']['IPAddress'])\
@@ -64,7 +65,7 @@ def SendPacket(config, LogFile, LogLineCounter):
             dport = config['Destination']['Port'])
         with open(LogFile, 'r') as f:
             for payload in f:
-                send(packet/payload, verbose=False)
+                s.send(packet/payload, verbose=False)
                 LogLineCounter += 1
 
     except Exception as e:
