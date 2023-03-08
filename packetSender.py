@@ -65,7 +65,7 @@ def SendPacket(config, LogFile, LogLineCounter):
             dport = config['Destination']['Port'])
         with open(LogFile, 'r') as f:
             for payload in f:
-                s.send(packet/payload, verbose=False)
+                s.send(packet/payload)
                 LogLineCounter += 1
 
     except Exception as e:
