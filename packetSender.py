@@ -8,6 +8,7 @@ import yaml
 import traceback
 import time
 import logging
+import threading
 # https://docs.python.org/ja/3/library/logging.html#levels
 logging.getLogger('scapy').setLevel(logging.ERROR)
 
@@ -74,6 +75,10 @@ def SendPacket(config, LogFile, LogLineCounter):
     print('\t\t\tOK\t', LogFile)
     return LogLineCounter
 
+# for multiThreading
+def SendPacketsThread(config, LogFile, LogLineCounter):
+    LogLineCounter = SendPacket(config, LogFile, LogLineCounter)
+    return LogLineCounter
 ## main
 
 if __name__ == "__main__":
@@ -89,8 +94,14 @@ if __name__ == "__main__":
     LogFiles = LoadLogs(Config)
 
     # Send logs
+    threads = []
     for i in range(len(LogFiles)):
-        LogLineCounter = SendPacket(Config, LogFiles[i], LogLineCounter)
+        t = threading.Thread(target=SendPacketsThread, args=(Config, LogFiles[i], LogLineCounter))
+        threads.append(t)
+        t.start()
+
+    for t in threads:
+        t.join()
 
     EndTime = time.time()
 
